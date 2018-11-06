@@ -7,8 +7,8 @@ class Transport extends React.Component {
         return (
             <div>
                 <div>Transport Layer</div>
-                <PlayStopButton />
-                <TempoSlider />
+                <PlayStopButton playing={this.props.playing} togglePlaying={this.props.togglePlaying} />
+                <TempoSlider bpm={this.props.bpm} updateBPM={this.props.updateBPM} />
             </div>
         )
     }
