@@ -10,7 +10,10 @@ class NumBeats extends React.Component {
 					min="2"
 					max="20"
 					defaultValue="4"
-					onChange={() => this.props.updateTimeSig()}
+					onChange={() => {
+						this.props.updateTimeSig();
+						// this.props.generateMetronome(); // taken care of in app.js
+					}}
 				/>
 			</div>
 		);

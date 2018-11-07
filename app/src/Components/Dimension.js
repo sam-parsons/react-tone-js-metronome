@@ -13,6 +13,7 @@ class Dimension extends React.Component {
 				<NumBeats
 					timeSig={this.props.timeSig}
 					updateTimeSig={this.props.updateTimeSig}
+					generateMetronome={this.props.generateMetronome}
 				/>
 				<Subdivision
 					timeSig={this.props.timeSig}

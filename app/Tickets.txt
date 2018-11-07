@@ -1,4 +1,4 @@
 Open Tickets
 
-- make generateMetronome method
-- cure formatting for "quarters per minute" display
+- make transport layer loop
+- get measureExporting and sequencing under way

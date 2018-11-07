@@ -13,7 +13,9 @@ class TempoSlider extends React.Component {
 					onChange={() => this.props.updateBPM()}
 				/>
 				<div id="tempo-value">
-					<h5>Quarter notes per minute: {this.props.bpm}</h5>
+					<h5 id="tempo-value-header">
+						Quarter notes per minute: {this.props.bpm}
+					</h5>
 				</div>
 			</div>
 		);
