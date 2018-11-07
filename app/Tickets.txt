@@ -1,0 +1,3 @@
+Open Tickets
+
+- make dimension compoent modify and add to Tone.Transport

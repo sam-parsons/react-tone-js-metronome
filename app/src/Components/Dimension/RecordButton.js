@@ -1,9 +1,13 @@
 import React from 'react';
 
 class RecordButton extends React.Component {
-    render() {
-        return <div>Record Button</div>
-    }
+	render() {
+		return (
+			<button id="record-btn" onClick={() => this.props.exportMeasure()}>
+				Record
+			</button>
+		);
+	}
 }
 
 export default RecordButton;
