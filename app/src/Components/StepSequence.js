@@ -1,9 +1,13 @@
-import React from "react";
+import React from 'react';
 
 class StepSequence extends React.Component {
-  render() {
-    return <div>Step Sequencer</div>;
-  }
+	render() {
+		return (
+			<div>
+				<h3>Step Sequencer</h3>
+			</div>
+		);
+	}
 }
 
 export default StepSequence;

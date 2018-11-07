@@ -5,17 +5,19 @@ import PlayPauseButton from './Sequence/PlayPauseButton.js';
 import StopButton from './Sequence/StopButton.js';
 
 class Sequence extends React.Component {
-    render() {
-        return (
-            <div>
-                <div>Sequence</div>
-                <PlayPauseButton />
-                <StopButton />
-                <LoopButton />
-                <ClearButton />
-            </div>
-        )
-    }
+	render() {
+		return (
+			<div>
+				<div>
+					<h4>Sequence Controls</h4>
+				</div>
+				<PlayPauseButton />
+				<StopButton />
+				<LoopButton />
+				<ClearButton />
+			</div>
+		);
+	}
 }
 
 export default Sequence;

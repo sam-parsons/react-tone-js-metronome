@@ -1,3 +1,4 @@
 Open Tickets
 
-- make dimension compoent modify and add to Tone.Transport
+- make generateMetronome method
+- cure formatting for "quarters per minute" display

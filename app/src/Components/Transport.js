@@ -6,7 +6,9 @@ class Transport extends React.Component {
 	render() {
 		return (
 			<div>
-				<div>Transport Layer</div>
+				<div>
+					<h4>Transport Layer</h4>
+				</div>
 				<PlayStopButton
 					playing={this.props.playing}
 					togglePlaying={this.props.togglePlaying}

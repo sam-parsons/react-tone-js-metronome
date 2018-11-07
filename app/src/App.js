@@ -62,9 +62,11 @@ class App extends Component {
 
 	updateBPM() {
 		const slider = document.querySelector('#tempo-sld').value;
-		document.querySelector(
-			'#tempo-value'
-		).innerHTML = `Quarters per minute: ${slider}`;
+		document.querySelector('#tempo-value').innerHTML = (
+			<div id="tempo-value">
+				<h5>`Quarters per minute: ${slider}`</h5>
+			</div>
+		);
 		console.log('updating bpm to ' + slider);
 		this.setState(
 			{
@@ -97,17 +99,28 @@ class App extends Component {
 		console.log('exporting measure');
 	}
 
-	calcMetLength() {}
+	calcMetLength() {
+		console.log('calculate metronome length');
+	}
 
-	calcBeatTicks() {}
+	calcBeatTicks() {
+		console.log('calculate beat ticks');
+	}
 
-	generateMetronome() {}
+	generateMetronome() {
+		console.log('generate metronome');
+	}
 
-	generateSequence() {}
+	generateSequence() {
+		console.log('generate sequence');
+	}
 
 	render() {
 		return (
 			<div className="App">
+				<div className="title">
+					<h1>Multimeter Metronome</h1>
+				</div>
 				<Transport
 					togglePlaying={this.togglePlaying.bind(this)}
 					playing={this.state.playing}

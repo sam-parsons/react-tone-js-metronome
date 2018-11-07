@@ -7,7 +7,9 @@ class Dimension extends React.Component {
 	render() {
 		return (
 			<div>
-				<div>Dimensions</div>
+				<div>
+					<h4>Dimension Control</h4>
+				</div>
 				<NumBeats
 					timeSig={this.props.timeSig}
 					updateTimeSig={this.props.updateTimeSig}
