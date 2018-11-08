@@ -10,7 +10,7 @@ class PlayPauseButton extends React.Component {
 						this.props.generateSequence();
 					}}
 				>
-					Play
+					{this.props.seqIsPlaying ? 'Stop' : 'Play'}
 				</button>
 			</div>
 		);

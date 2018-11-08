@@ -2,7 +2,6 @@ import React from 'react';
 import ClearButton from './Sequence/ClearButton.js';
 import LoopButton from './Sequence/LoopButton.js';
 import PlayPauseButton from './Sequence/PlayPauseButton.js';
-import StopButton from './Sequence/StopButton.js';
 
 class Sequence extends React.Component {
 	render() {
@@ -13,9 +12,9 @@ class Sequence extends React.Component {
 				</div>
 				<PlayPauseButton
 					generateSequence={this.props.generateSequence}
+					seqIsPlaying={this.props.seqIsPlaying}
 				/>
-				<StopButton />
-				<LoopButton />
+				<LoopButton loopStatus={this.props.loopStatus} />
 				<ClearButton />
 			</div>
 		);
