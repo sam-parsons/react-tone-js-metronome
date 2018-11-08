@@ -11,7 +11,9 @@ class Sequence extends React.Component {
 				<div>
 					<h4>Sequence Controls</h4>
 				</div>
-				<PlayPauseButton />
+				<PlayPauseButton
+					generateSequence={this.props.generateSequence}
+				/>
 				<StopButton />
 				<LoopButton />
 				<ClearButton />

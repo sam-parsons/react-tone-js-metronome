@@ -11,11 +11,11 @@ const synth = new Tone.Synth().toMaster();
 // Sample data begin
 // const sampleNotes = [];
 // for (let i = 0; i < 8; i++) {
-// 	sampleNotes.push({
-// 		note: 'C5',
-// 		time: `0:${i}`,
-// 		velocity: 0.1,
-// 	});
+// sampleNotes.push({
+// 	note: 'C5',
+// 	time: `0:${i}`,
+// 	velocity: 0.1,
+// });
 // }
 
 // const part = new Tone.Part((time, value) => {
@@ -33,6 +33,9 @@ class App extends Component {
 			metContainerSize: 0,
 			sequenceContainer: [],
 			seqContainerSize: 0,
+			sequenceIndex: 0,
+			seqIsPlaying: false,
+			seqPartContainer: [],
 			notes: ['C5', 'EB5'],
 			tempDivisor: 4,
 			beatTicks: 8,
@@ -43,20 +46,39 @@ class App extends Component {
 	}
 
 	//lifecycle methods
+	componentDidMount() {
+		this.generateMetronome();
+	}
 
+	// custom methods
 	computeTime(index) {
-		console.log('computer time');
+		console.log('index: ' + index);
+		console.log('compute time: ' + `0:${index / 8}`);
+		return `0:${index / 8}`;
 	}
 
 	togglePlaying() {
 		if (this.state.playing) {
 			this.setState({ playing: false });
 			Tone.Transport.stop();
+			this.loopUpdate(false);
 			console.log('playing stopped');
 		} else {
 			this.setState({ playing: true });
+			this.loopUpdate(true);
 			Tone.Transport.start('+0.0');
 			console.log('playing initiated');
+		}
+	}
+
+	loopUpdate(arg) {
+		if (arg) {
+			Tone.Transport.loopStart = 0;
+			Tone.Transport.loopEnd =
+				this.calcMetLength(this.state.timeSig) / 16;
+			Tone.Transport.loop = true;
+		} else {
+			Tone.Transport.loop = false;
 		}
 	}
 
@@ -65,13 +87,10 @@ class App extends Component {
 		document.querySelector(
 			'#tempo-value-header'
 		).innerHTML = `Quarters per minute: ${slider}`;
-		console.log('updating bpm to ' + slider);
-		this.setState(
-			{
-				bpm: parseInt(slider),
-			},
-			() => console.log(this.state.bpm)
-		);
+		// console.log('updating bpm to ' + slider);
+		this.setState({
+			bpm: parseInt(slider),
+		});
 		Tone.Transport.bpm.value = parseInt(slider);
 	}
 
@@ -87,7 +106,7 @@ class App extends Component {
 				],
 			},
 			() => {
-				console.log(this.state.timeSig);
+				this.loopUpdate(true);
 				this.generateMetronome();
 			}
 		);
@@ -96,10 +115,57 @@ class App extends Component {
 
 	exportMeasure() {
 		console.log('exporting measure');
+		const timeSig = this.state.timeSig;
+		const metLength = this.calcMetLength(timeSig);
+		console.log('metLength: ' + metLength);
+		const sequenceContainer = this.state.sequenceContainer;
+		console.log('sequence container length: ' + sequenceContainer.length);
+		let seqContainerSize = this.state.seqContainerSize + 1;
+		const sequenceMatrix = this.generateSeqMatrix();
+		sequenceContainer.push([
+			timeSig[0],
+			timeSig[1],
+			metLength,
+			sequenceMatrix,
+		]);
+
+		this.setState(
+			{
+				sequenceContainer: sequenceContainer,
+				seqContainerSize: seqContainerSize,
+			},
+			() => {
+				console.log('sequence container: ' + sequenceContainer);
+				console.log('sequence size: ' + seqContainerSize);
+			}
+		);
 	}
 
+	generateSeqMatrix() {
+		const timeSig = this.state.timeSig;
+		const finalMatrix = [];
+		console.log(timeSig[1]);
+		if (timeSig[1] === 16 || timeSig[1] === 8 || timeSig[1] === 32) {
+			for (let i = 0; i < timeSig[0]; i++) {
+				i % 2 === 0 ? finalMatrix.push(1) : finalMatrix.push(0);
+			}
+		} else if (timeSig[1] === 4 || timeSig[1] === 2) {
+			for (let i = 0; i < timeSig[1] * 2; i++) {
+				if (i % 2 === 0) {
+					finalMatrix.push(1);
+				} else {
+					finalMatrix.push(0);
+				}
+			}
+		}
+		console.dir(finalMatrix.length);
+		return finalMatrix;
+	}
+
+	generateSeqPart() {}
+
 	calcMetLength(timeSig) {
-		console.log('calculate metronome length');
+		// console.log('calculate metronome length');
 		const tempDivisor = timeSig[1];
 		if (tempDivisor === 2) {
 			return 16 * timeSig[0];
@@ -115,7 +181,7 @@ class App extends Component {
 	}
 
 	calcBeatTicks(subdivisor) {
-		console.log('calculate beat ticks');
+		// console.log('calculate beat ticks');
 		const tempDivisor = subdivisor;
 		if (tempDivisor === 2) {
 			return 16;
@@ -130,7 +196,6 @@ class App extends Component {
 		}
 	}
 
-	// need to make calcMetLength and calcBeatTicks for this to dynamically function
 	generateMetronome() {
 		console.log('generate metronome');
 		// erase or stop all previous parts
@@ -139,7 +204,7 @@ class App extends Component {
 		metContainer.forEach(part => part.removeAll());
 		let metContainerSize = 0;
 		const timeSig = this.state.timeSig;
-		console.log(timeSig);
+		console.log('timeSig: ' + timeSig);
 		// make copy of rendered notes and erase everything
 		const renderedNotes = [];
 		const notes = this.state.notes;
@@ -155,7 +220,6 @@ class App extends Component {
 					velocity: 0.1,
 				});
 			} else if (i % beatTicks === 0) {
-				console.log('time: 0:' + i / beatTicks);
 				renderedNotes.push({
 					note: notes[0],
 					time: `0:${i / 8}`, // this may be waaay wrong
@@ -179,6 +243,85 @@ class App extends Component {
 
 	generateSequence() {
 		console.log('generate sequence');
+		const sequenceContainer = this.state.sequenceContainer;
+		const seqPartContainer = this.state.seqPartContainer;
+		seqPartContainer.forEach(part => part.removeAll());
+		let sequenceIndex = 0;
+		const notes = this.state.notes;
+		console.log(sequenceContainer);
+		const renderedNotes = [];
+		for (let i = 0; i < sequenceContainer.length; i++) {
+			const beatTicks = this.calcBeatTicks(sequenceContainer[i][1]);
+			const partLength = sequenceContainer[i][2];
+			const loopLength = sequenceIndex + partLength;
+			for (let j = sequenceIndex; j < loopLength; j++) {
+				console.log(j);
+				if (sequenceIndex === j) {
+					const placement = this.computeTime(j);
+					renderedNotes.push({
+						note: notes[1],
+						time: placement,
+						velocity: 0.1,
+					});
+				} else if (
+					j % beatTicks === 0 &&
+					sequenceContainer[i][3][(j / (beatTicks / 2)) % 4] === 1
+				) {
+					const placement = this.computeTime(j);
+					renderedNotes.push({
+						note: notes[0],
+						time: placement,
+						velocity: 0.1,
+					});
+				}
+				// if (sequenceIndex === j || j % beatTicks === 0) {
+				// 	renderedNotes.push({
+				// 		note: 'C5',
+				// 		time: `0:0`,
+				// 		velocity: 0.1,
+				// 	});
+				// }
+			}
+			sequenceIndex += partLength;
+		}
+		const part = new Tone.Part((time, value) => {
+			console.log(value.note);
+			console.log(time);
+			synth.triggerAttackRelease(value.note, '32n', time, value.velocity);
+		}, renderedNotes).start(0);
+		seqPartContainer.push(part);
+		this.setState(
+			{
+				sequenceIndex: sequenceIndex,
+				seqPartContainer: seqPartContainer,
+			},
+			() => {
+				this.playSequence();
+			}
+		);
+	}
+
+	playSequence() {
+		if (this.state.seqIsPlaying) {
+			// pause the sequence
+			this.setState({ seqIsPlaying: false });
+			Tone.Transport.stop();
+			console.log('sequence stopped');
+		} else {
+			// clear out reminaing parts
+			const metContainer = this.state.metronomeContainer; // holds rendered part so it can be erased or stopped in future
+			metContainer.forEach(part => part.removeAll());
+			let metContainerSize = 0;
+			// do same for sequenceContainer
+			// start the sequence
+			this.setState({
+				seqIsPlaying: true,
+				metronomeContainer: metContainer,
+				metContainerSize: metContainerSize,
+			});
+			Tone.Transport.start('+0.0');
+			console.log('sequence initiated');
+		}
 	}
 
 	render() {
@@ -199,7 +342,7 @@ class App extends Component {
 					exportMeasure={this.exportMeasure.bind(this)}
 				/>
 				<StepSequence />
-				<Sequence />
+				<Sequence generateSequence={this.generateSequence.bind(this)} />
 			</div>
 		);
 	}

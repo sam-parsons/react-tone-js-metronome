@@ -1,4 +1,3 @@
 Open Tickets
 
-- make transport layer loop
-- get measureExporting and sequencing under way
+- make sequence play!!! - the data is there!
