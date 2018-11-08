@@ -2,3 +2,4 @@ Open Tickets
 
 - enabling loop function for sequence
 - play button should not fire if empty sequence
+- hook this up with a PolySynth

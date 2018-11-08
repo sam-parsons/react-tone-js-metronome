@@ -49,7 +49,7 @@ class App extends Component {
 	//lifecycle methods
 	componentDidMount() {
 		this.generateMetronome();
-		this.renderStepSequence();
+		this.generateStepSequence();
 	}
 
 	// custom methods
@@ -111,7 +111,7 @@ class App extends Component {
 			() => {
 				this.loopUpdate(true);
 				this.generateMetronome();
-				this.renderStepSequence();
+				this.generateStepSequence();
 			}
 		);
 		bottomDisplay.innerHTML = Math.pow(2, parseInt(bottom.value));
@@ -149,6 +149,7 @@ class App extends Component {
 		const timeSig = this.state.timeSig;
 		const finalMatrix = [];
 		console.log('timeSig: ' + timeSig[0] + ' ' + timeSig[1]);
+
 		if (timeSig[1] === 16 || timeSig[1] === 8 || timeSig[1] === 32) {
 			for (let i = 0; i < timeSig[0]; i++) {
 				i % 2 === 0 ? finalMatrix.push(1) : finalMatrix.push(0);
@@ -164,6 +165,93 @@ class App extends Component {
 		}
 		console.dir(finalMatrix.length);
 		return finalMatrix;
+	}
+
+	readCheckboxes(array) {
+		console.log('reading checkboxes');
+		if (!array) {
+			const topRowButtons = document.querySelectorAll('.top-row-btn');
+			const bottomRowButtons = document.querySelectorAll(
+				'.bottom-row-btn'
+			);
+			console.log(topRowButtons);
+			console.log(bottomRowButtons);
+			const matrix = this.generateSeqMatrix();
+			const topArray = [];
+			const bottomArray = [];
+			// for (let i = 0; i < matrix.length; i++) {
+			// 	if (i === 0) {
+			// 		topArray.push(1);
+			// 		bottomArray.push(0);
+			// 	} else if (matrix[i] === 1) {
+			// 		topArray.push(0);
+			// 		bottomArray.push(1);
+			// 	} else {
+			// 		topArray.push(0);
+			// 		bottomArray.push(0);
+			// 	}
+			// }
+			for (let i = 0; i < topRowButtons.length; i++) {
+				if (topRowButtons[i].checked && bottomRowButtons[i].checked) {
+					topArray.push(1);
+					bottomArray.push(1);
+				} else if (
+					!topRowButtons[i].checked &&
+					bottomRowButtons[i].checked
+				) {
+					topArray.push(0);
+					bottomArray.push(1);
+				} else if (
+					topRowButtons[i].checked &&
+					!bottomRowButtons[i].checked
+				) {
+					topArray.push(1);
+					bottomArray.push(0);
+				} else if (
+					!topRowButtons[i].checked &&
+					!bottomRowButtons[i].checked
+				) {
+					topArray.push(0);
+					bottomArray.push(0);
+				}
+			}
+			return [topArray, bottomArray];
+		} else {
+			const topRowButtons = document.querySelectorAll('.top-row-btn');
+			const bottomRowButtons = document.querySelectorAll(
+				'.bottom-row-btn'
+			);
+			console.log(topRowButtons);
+			console.log(bottomRowButtons);
+			const topArray = [];
+			const bottomArray = [];
+			for (let i = 0; i < topRowButtons.length; i++) {
+				if (topRowButtons[i].checked && bottomRowButtons[i].checked) {
+					topArray.push(1);
+					bottomArray.push(1);
+				} else if (
+					!topRowButtons[i].checked &&
+					bottomRowButtons[i].checked
+				) {
+					topArray.push(0);
+					bottomArray.push(1);
+				} else if (
+					topRowButtons[i].checked &&
+					!bottomRowButtons[i].checked
+				) {
+					topArray.push(1);
+					bottomArray.push(0);
+				} else if (
+					!topRowButtons[i].checked &&
+					!bottomRowButtons[i].checked
+				) {
+					topArray.push(0);
+					bottomArray.push(0);
+				}
+			}
+			const finalMatrix = [topArray, bottomArray];
+			return finalMatrix;
+		}
 	}
 
 	generateSeqPart() {}
@@ -229,6 +317,69 @@ class App extends Component {
 					time: `0:${i / 8}`, // this may be waaay wrong
 					velocity: 0.1,
 				});
+			}
+		}
+		const part = new Tone.Part((time, value) => {
+			synth.triggerAttackRelease(value.note, '32n', time, value.velocity);
+		}, renderedNotes).start(0);
+		metContainer.push(part);
+		metContainerSize++;
+		// set state
+		this.setState({
+			renderedNotes: renderedNotes,
+			metronomeContainer: metContainer,
+			metContainerSize: metContainerSize,
+			beatTicks: 8,
+		});
+	}
+
+	updateMetronome() {
+		console.log('updating metronome');
+		// erase or stop all previous parts
+		// Tone.Transport.cancel(); // something else?
+		const metContainer = this.state.metronomeContainer; // holds rendered part so it can be erased or stopped in future
+		metContainer.forEach(part => part.removeAll());
+		let metContainerSize = 0;
+		const timeSig = this.state.timeSig;
+		// console.log('timeSig: ' + timeSig);
+		// make copy of rendered notes and erase everything
+		const renderedNotes = [];
+		const notes = this.state.notes;
+		const metLength = this.calcMetLength(timeSig);
+		console.log('met length: ' + metLength);
+		const beatTicks = this.calcBeatTicks(timeSig[1]);
+		console.log('beatTicks: ' + beatTicks);
+		const matrix = this.readCheckboxes();
+		console.log('updated matrix' + matrix);
+		for (let i = 0; i < metLength; i++) {
+			if (timeSig[1] <= 4 && i % (beatTicks / 2) === 0) {
+				if (matrix[0][i / (beatTicks / 2)] === 1) {
+					renderedNotes.push({
+						note: notes[1],
+						time: `0:${i / 8}`,
+						velocity: 0.1,
+					});
+				} else if (matrix[1][i / (beatTicks / 2)] === 1) {
+					renderedNotes.push({
+						note: notes[0],
+						time: `0:${i / 8}`,
+						velocity: 0.1,
+					});
+				}
+			} else if (i % beatTicks === 0) {
+				if (matrix[0][i] === 1) {
+					renderedNotes.push({
+						note: notes[1],
+						time: `0:${i / 8}`,
+						velocity: 0.1,
+					});
+				} else if (matrix[1][i] === 1) {
+					renderedNotes.push({
+						note: notes[0],
+						time: `0:${i / 8}`,
+						velocity: 0.1,
+					});
+				}
 			}
 		}
 		const part = new Tone.Part((time, value) => {
@@ -364,13 +515,34 @@ class App extends Component {
 		});
 	}
 
-	renderStepSequence() {
-		this.updateTopRow();
-		this.updateBottomRow();
-		this.updateProgressBar();
+	updateTopRow() {
+		console.log('updating top row');
+		const topRow = document.querySelector('.top-row');
+		// console.log(topRow);
+		const timeSig = this.state.timeSig;
+		// console.log(timeSig);
+		const matrix = this.generateSeqMatrix();
+		const finalMatrix = this.readCheckboxes(matrix);
+		console.log(finalMatrix);
 	}
 
-	updateTopRow() {
+	updateBottomRow() {
+		console.log('updating bottom row');
+		const bottomRow = document.querySelector('.bottom-row');
+		// console.log(bottomRow);
+		const timeSig = this.state.timeSig;
+		// console.log(timeSig);
+		const matrix = this.generateSeqMatrix();
+	}
+
+	updateProgressBar() {
+		console.log('updating progress bar');
+		const progressBar = document.querySelector('.progress-bar');
+		// console.log(progressBar);
+		const timeSig = this.state.timeSig;
+	}
+
+	generateStepSequence() {
 		console.log('updating top row');
 		const topRow = document.querySelector('.top-row');
 		// console.log(topRow);
@@ -385,8 +557,12 @@ class App extends Component {
 				element.type = 'checkbox';
 				element.key = 'a' + i;
 				element.id = 'tr' + i;
-				element.checked = matrix[0] === 1 && i === 0 ? true : false;
-				element.onclick = () => console.log('checkbox button clicked');
+				element.className = 'top-row-btn';
+				element.checked = i === 0 ? true : false;
+				element.onclick = () => {
+					this.updateTopRow();
+					this.updateMetronome();
+				};
 				topRow.appendChild(element);
 			}
 		} else if (timeSig[1] <= 4) {
@@ -396,20 +572,20 @@ class App extends Component {
 				element.type = 'checkbox';
 				element.key = 'b' + i;
 				element.id = 'tr' + i;
+				element.className = 'top-row-btn';
 				element.checked = matrix[0] === 1 && i === 0 ? true : false;
-				element.onclick = () => console.log('checkbox button clicked');
+				element.onclick = () => {
+					this.updateTopRow();
+					this.updateMetronome();
+				};
 				topRow.appendChild(element);
 			}
 		}
-	}
 
-	updateBottomRow() {
 		console.log('updating bottom row');
 		const bottomRow = document.querySelector('.bottom-row');
 		// console.log(bottomRow);
-		const timeSig = this.state.timeSig;
-		// console.log(timeSig);
-		const matrix = this.generateSeqMatrix();
+
 		console.log(matrix);
 		if (timeSig[1] >= 8) {
 			bottomRow.innerHTML = '';
@@ -418,8 +594,9 @@ class App extends Component {
 				element.type = 'checkbox';
 				element.key = 'a' + i;
 				element.id = 'br' + i;
+				element.className = 'bottom-row-btn';
 				element.checked = matrix[i] === 1 && i !== 0 ? true : false;
-				element.onclick = () => console.log('checkbox button clicked');
+				element.onclick = () => this.updateBottomRow();
 				bottomRow.appendChild(element);
 			}
 		} else if (timeSig[1] <= 4) {
@@ -429,18 +606,17 @@ class App extends Component {
 				element.type = 'checkbox';
 				element.key = 'b' + i;
 				element.id = 'br' + i;
+				element.className = 'bottom-row-btn';
 				element.checked = matrix[i] === 1 && i !== 0 ? true : false;
-				element.onclick = () => console.log('checkbox button clicked');
+				element.onclick = () => this.updateBottomRow();
 				bottomRow.appendChild(element);
 			}
 		}
-	}
 
-	updateProgressBar() {
 		console.log('updating progress bar');
 		const progressBar = document.querySelector('.progress-bar');
 		// console.log(progressBar);
-		const timeSig = this.state.timeSig;
+
 		if (timeSig[1] >= 8) {
 			progressBar.innerHTML = '';
 			for (let i = 0; i < timeSig[0]; i++) {
@@ -481,7 +657,10 @@ class App extends Component {
 					updateTimeSig={this.updateTimeSig.bind(this)}
 					exportMeasure={this.exportMeasure.bind(this)}
 				/>
-				<StepSequence updateTopRow={this.updateTopRow.bind(this)} />
+				<StepSequence
+					updateTopRow={this.updateTopRow.bind(this)}
+					generateStepSequence={this.generateStepSequence.bind(this)}
+				/>
 				<Sequence
 					generateSequence={this.generateSequence.bind(this)}
 					seqIsPlaying={this.state.seqIsPlaying}

@@ -7,8 +7,8 @@ class StepSequence extends React.Component {
 	render() {
 		return (
 			<div>
-				<TopRow updateTopRow={this.props.updateTopRow} />
-				<BottomRow />
+				<TopRow onChange={() => this.props.renderStepSequence()} />
+				<BottomRow onChange={() => this.props.renderStepSequence()} />
 				<ProgressBar />
 			</div>
 		);
