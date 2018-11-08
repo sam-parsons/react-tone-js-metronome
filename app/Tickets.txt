@@ -1,5 +1,4 @@
 Open Tickets
 
 - enabling loop function for sequence
-- also ensuring functionality of stop and clear
---- possibly erase stop button for sequence and incorporate its function into new "play/stop" btn
+- play button should not fire if empty sequence

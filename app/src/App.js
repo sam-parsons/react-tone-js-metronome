@@ -49,6 +49,7 @@ class App extends Component {
 	//lifecycle methods
 	componentDidMount() {
 		this.generateMetronome();
+		this.renderStepSequence();
 	}
 
 	// custom methods
@@ -110,6 +111,7 @@ class App extends Component {
 			() => {
 				this.loopUpdate(true);
 				this.generateMetronome();
+				this.renderStepSequence();
 			}
 		);
 		bottomDisplay.innerHTML = Math.pow(2, parseInt(bottom.value));
@@ -146,13 +148,13 @@ class App extends Component {
 	generateSeqMatrix() {
 		const timeSig = this.state.timeSig;
 		const finalMatrix = [];
-		console.log(timeSig[1]);
+		console.log('timeSig: ' + timeSig[0] + ' ' + timeSig[1]);
 		if (timeSig[1] === 16 || timeSig[1] === 8 || timeSig[1] === 32) {
 			for (let i = 0; i < timeSig[0]; i++) {
 				i % 2 === 0 ? finalMatrix.push(1) : finalMatrix.push(0);
 			}
 		} else if (timeSig[1] === 4 || timeSig[1] === 2) {
-			for (let i = 0; i < timeSig[1] * 2; i++) {
+			for (let i = 0; i < timeSig[0] * 2; i++) {
 				if (i % 2 === 0) {
 					finalMatrix.push(1);
 				} else {
@@ -346,6 +348,122 @@ class App extends Component {
 		}
 	}
 
+	clearSequence() {
+		console.log('clearing sequence');
+		const sequenceContainer = [];
+		let seqPartContainer = this.state.seqPartContainer;
+		seqPartContainer.forEach(part => part.removeAll());
+		seqPartContainer.forEach(part => part.pop());
+		console.log(sequenceContainer);
+		let sequenceIndex = 0;
+		Tone.Transport.stop();
+		this.setState({
+			sequenceIndex: sequenceIndex,
+			seqPartContainer: seqPartContainer,
+			sequenceContainer: sequenceContainer,
+		});
+	}
+
+	renderStepSequence() {
+		this.updateTopRow();
+		this.updateBottomRow();
+		this.updateProgressBar();
+	}
+
+	updateTopRow() {
+		console.log('updating top row');
+		const topRow = document.querySelector('.top-row');
+		// console.log(topRow);
+		const timeSig = this.state.timeSig;
+		// console.log(timeSig);
+		const matrix = this.generateSeqMatrix();
+		console.log(matrix);
+		if (timeSig[1] >= 8) {
+			topRow.innerHTML = '';
+			for (let i = 0; i < timeSig[0]; i++) {
+				const element = document.createElement('input');
+				element.type = 'checkbox';
+				element.key = 'a' + i;
+				element.id = 'tr' + i;
+				element.checked = matrix[0] === 1 && i === 0 ? true : false;
+				element.onclick = () => console.log('checkbox button clicked');
+				topRow.appendChild(element);
+			}
+		} else if (timeSig[1] <= 4) {
+			topRow.innerHTML = '';
+			for (let i = 0; i < timeSig[0] * 2; i++) {
+				const element = document.createElement('input');
+				element.type = 'checkbox';
+				element.key = 'b' + i;
+				element.id = 'tr' + i;
+				element.checked = matrix[0] === 1 && i === 0 ? true : false;
+				element.onclick = () => console.log('checkbox button clicked');
+				topRow.appendChild(element);
+			}
+		}
+	}
+
+	updateBottomRow() {
+		console.log('updating bottom row');
+		const bottomRow = document.querySelector('.bottom-row');
+		// console.log(bottomRow);
+		const timeSig = this.state.timeSig;
+		// console.log(timeSig);
+		const matrix = this.generateSeqMatrix();
+		console.log(matrix);
+		if (timeSig[1] >= 8) {
+			bottomRow.innerHTML = '';
+			for (let i = 0; i < timeSig[0]; i++) {
+				const element = document.createElement('input');
+				element.type = 'checkbox';
+				element.key = 'a' + i;
+				element.id = 'br' + i;
+				element.checked = matrix[i] === 1 && i !== 0 ? true : false;
+				element.onclick = () => console.log('checkbox button clicked');
+				bottomRow.appendChild(element);
+			}
+		} else if (timeSig[1] <= 4) {
+			bottomRow.innerHTML = '';
+			for (let i = 0; i < timeSig[0] * 2; i++) {
+				const element = document.createElement('input');
+				element.type = 'checkbox';
+				element.key = 'b' + i;
+				element.id = 'br' + i;
+				element.checked = matrix[i] === 1 && i !== 0 ? true : false;
+				element.onclick = () => console.log('checkbox button clicked');
+				bottomRow.appendChild(element);
+			}
+		}
+	}
+
+	updateProgressBar() {
+		console.log('updating progress bar');
+		const progressBar = document.querySelector('.progress-bar');
+		// console.log(progressBar);
+		const timeSig = this.state.timeSig;
+		if (timeSig[1] >= 8) {
+			progressBar.innerHTML = '';
+			for (let i = 0; i < timeSig[0]; i++) {
+				const element = document.createElement('input');
+				element.type = 'checkbox';
+				element.key = 'a' + i;
+				element.id = 'id' + i;
+				element.onclick = () => console.log('checkbox button clicked');
+				progressBar.appendChild(element);
+			}
+		} else if (timeSig[1] <= 4) {
+			progressBar.innerHTML = '';
+			for (let i = 0; i < timeSig[0] * 2; i++) {
+				const element = document.createElement('input');
+				element.type = 'checkbox';
+				element.key = 'b' + i;
+				element.id = 'id' + i;
+				element.onclick = () => console.log('checkbox button clicked');
+				progressBar.appendChild(element);
+			}
+		}
+	}
+
 	render() {
 		return (
 			<div className="App">
@@ -363,11 +481,12 @@ class App extends Component {
 					updateTimeSig={this.updateTimeSig.bind(this)}
 					exportMeasure={this.exportMeasure.bind(this)}
 				/>
-				<StepSequence />
+				<StepSequence updateTopRow={this.updateTopRow.bind(this)} />
 				<Sequence
 					generateSequence={this.generateSequence.bind(this)}
 					seqIsPlaying={this.state.seqIsPlaying}
 					loopStatus={this.state.loopStatus}
+					clearSequence={this.clearSequence.bind(this)}
 				/>
 			</div>
 		);

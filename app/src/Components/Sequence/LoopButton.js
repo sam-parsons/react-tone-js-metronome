@@ -1,6 +1,7 @@
 import React from 'react';
 
 // I really messed up this loop button, really need to rework this entirely
+// move function body to App.js?
 class LoopButton extends React.Component {
 	render() {
 		return (
