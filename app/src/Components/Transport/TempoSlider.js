@@ -8,7 +8,7 @@ class TempoSlider extends React.Component {
 					id="tempo-sld"
 					type="range"
 					min="30"
-					max="260"
+					max="400"
 					defaultValue="120"
 					onChange={() => this.props.updateBPM()}
 				/>

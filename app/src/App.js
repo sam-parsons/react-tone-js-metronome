@@ -336,19 +336,15 @@ class App extends Component {
 	updateMetronome() {
 		console.log('updating metronome');
 		// erase or stop all previous parts
-		// Tone.Transport.cancel(); // something else?
 		const metContainer = this.state.metronomeContainer; // holds rendered part so it can be erased or stopped in future
 		metContainer.forEach(part => part.removeAll());
 		let metContainerSize = 0;
 		const timeSig = this.state.timeSig;
-		// console.log('timeSig: ' + timeSig);
 		// make copy of rendered notes and erase everything
 		const renderedNotes = [];
 		const notes = this.state.notes;
 		const metLength = this.calcMetLength(timeSig);
-		console.log('met length: ' + metLength);
 		const beatTicks = this.calcBeatTicks(timeSig[1]);
-		console.log('beatTicks: ' + beatTicks);
 		const matrix = this.readCheckboxes();
 		console.log('updated matrix' + matrix);
 		for (let i = 0; i < metLength; i++) {
