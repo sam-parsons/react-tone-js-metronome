@@ -12,6 +12,7 @@ class Transport extends React.Component {
 				<PlayStopButton
 					playing={this.props.playing}
 					togglePlaying={this.props.togglePlaying}
+					updateMetronome={this.props.updateMetronome}
 				/>
 				<TempoSlider
 					bpm={this.props.bpm}

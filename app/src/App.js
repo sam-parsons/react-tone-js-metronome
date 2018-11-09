@@ -126,12 +126,9 @@ class App extends Component {
 		console.log('sequence container length: ' + sequenceContainer.length);
 		let seqContainerSize = this.state.seqContainerSize + 1;
 		const sequenceMatrix = this.generateSeqMatrix();
-		sequenceContainer.push([
-			timeSig[0],
-			timeSig[1],
-			metLength,
-			sequenceMatrix,
-		]);
+		const matrix = this.readCheckboxes(sequenceMatrix);
+		console.log(matrix);
+		sequenceContainer.push([timeSig[0], timeSig[1], metLength, matrix]);
 
 		this.setState(
 			{
@@ -339,12 +336,18 @@ class App extends Component {
 		const metContainer = this.state.metronomeContainer; // holds rendered part so it can be erased or stopped in future
 		metContainer.forEach(part => part.removeAll());
 		let metContainerSize = 0;
+		// clear sequences as well
+		const sequenceContainer = this.state.sequenceContainer;
+		const seqPartContainer = this.state.seqPartContainer;
+		seqPartContainer.forEach(part => part.removeAll());
 		const timeSig = this.state.timeSig;
 		// make copy of rendered notes and erase everything
 		const renderedNotes = [];
 		const notes = this.state.notes;
 		const metLength = this.calcMetLength(timeSig);
+		console.log('metLength: ' + metLength);
 		const beatTicks = this.calcBeatTicks(timeSig[1]);
+		console.log('beatTicks: ' + beatTicks);
 		const matrix = this.readCheckboxes();
 		console.log('updated matrix' + matrix);
 		for (let i = 0; i < metLength; i++) {
@@ -363,13 +366,13 @@ class App extends Component {
 					});
 				}
 			} else if (i % beatTicks === 0) {
-				if (matrix[0][i] === 1) {
+				if (matrix[0][i / beatTicks] === 1) {
 					renderedNotes.push({
 						note: notes[1],
 						time: `0:${i / 8}`,
 						velocity: 0.1,
 					});
-				} else if (matrix[1][i] === 1) {
+				} else if (matrix[1][i / beatTicks] === 1) {
 					renderedNotes.push({
 						note: notes[0],
 						time: `0:${i / 8}`,
@@ -389,6 +392,10 @@ class App extends Component {
 			metronomeContainer: metContainer,
 			metContainerSize: metContainerSize,
 			beatTicks: 8,
+			sequenceIndex: 0,
+			seqPartContainer: seqPartContainer,
+			sequenceContainer: sequenceContainer,
+			seqContainerSize: 0,
 		});
 	}
 
@@ -400,8 +407,10 @@ class App extends Component {
 		let sequenceIndex = 0;
 		const notes = this.state.notes;
 		console.log(sequenceContainer);
+		console.log(sequenceContainer.length);
 		const renderedNotes = [];
 		for (let i = 0; i < sequenceContainer.length; i++) {
+			console.log(i);
 			const beatTicks = this.calcBeatTicks(sequenceContainer[i][1]);
 			const partLength = sequenceContainer[i][2];
 			const loopLength = sequenceIndex + partLength;
@@ -409,44 +418,91 @@ class App extends Component {
 			for (let j = sequenceIndex; j < loopLength; j++) {
 				console.log(j);
 
-				if (sequenceIndex === j) {
-					const placement = this.computeTime(j);
-					renderedNotes.push({
-						note: notes[1],
-						time: placement,
-						velocity: 0.1,
-					});
-				} else if (
-					j % beatTicks === 0 &&
-					sequenceContainer[i][3][(j - sequenceIndex) / beatTicks] ===
-						1 &&
-					sequenceContainer[i][1] === 8
+				if (
+					sequenceContainer[i][1] <= 4 &&
+					(j - sequenceIndex) % (beatTicks / 2) === 0
 				) {
+					const placement = this.computeTime(j);
+					if (sequenceContainer[i][3][0][j / (beatTicks / 2)] === 1) {
+						renderedNotes.push({
+							note: notes[1],
+							time: placement,
+							velocity: 0.1,
+						});
+					} else if (
+						sequenceContainer[i][3][1][
+							(j - sequenceIndex) / (beatTicks / 2)
+						] === 1
+					) {
+						renderedNotes.push({
+							note: notes[0],
+							time: placement,
+							velocity: 0.1,
+						});
+					}
+				} else if ((j - sequenceIndex) % beatTicks === 0) {
+					const placement = this.computeTime(j);
 					console.log(
-						sequenceContainer[i][3][(j - sequenceIndex) / beatTicks]
+						'conditional: ' +
+							sequenceContainer[i][3][0][
+								(j - sequenceIndex) / beatTicks
+							]
 					);
-					const placement = this.computeTime(j);
-					renderedNotes.push({
-						note: notes[0],
-						time: placement,
-						velocity: 0.1,
-					});
-				} else if (
-					(j - sequenceIndex) % beatTicks === 0 &&
-					sequenceContainer[i][1] !== 8
-				) {
-					console.log('beatTicks: ' + beatTicks);
-					const placement = this.computeTime(j);
-					renderedNotes.push({
-						note: notes[0],
-						time: placement,
-						velocity: 0.1,
-					});
+					console.log('index: ' + (j - sequenceIndex) / beatTicks);
+					if (
+						sequenceContainer[i][3][0][
+							(j - sequenceIndex) / beatTicks
+						] === 1
+					) {
+						renderedNotes.push({
+							note: notes[1],
+							time: placement,
+							velocity: 0.1,
+						});
+					} else if (
+						sequenceContainer[i][3][1][
+							(j - sequenceIndex) / beatTicks
+						] === 1
+					) {
+						renderedNotes.push({
+							note: notes[0],
+							time: placement,
+							velocity: 0.1,
+						});
+					}
 				}
-				// if (sequenceIndex === j || j % beatTicks === 0) {
+
+				// if (sequenceIndex === j) {
+				// 	const placement = this.computeTime(j);
 				// 	renderedNotes.push({
-				// 		note: 'C5',
-				// 		time: `0:0`,
+				// 		note: notes[1],
+				// 		time: placement,
+				// 		velocity: 0.1,
+				// 	});
+				// } else if (
+				// 	j % beatTicks === 0 &&
+				// 	sequenceContainer[i][3][(j - sequenceIndex) / beatTicks] ===
+				// 		1 &&
+				// 	sequenceContainer[i][1] === 8
+				// ) {
+				// 	console.log(
+				// 		sequenceContainer[i][3][(j - sequenceIndex) / beatTicks]
+				// 	);
+				// 	const placement = this.computeTime(j);
+				// 	renderedNotes.push({
+				// 		note: notes[0],
+				// 		time: placement,
+				// 		velocity: 0.1,
+				// 	});
+				// } else if (
+				// 	(j - sequenceIndex) % beatTicks === 0 &&
+				// 	sequenceContainer[i][1] !== 8
+				// ) {
+				// 	console.log('beatTicks: ' + beatTicks);
+				// 	const placement = this.computeTime(j);
+				// 	renderedNotes.push({
+				// 		note: notes[0],
+				// 		time: placement,
 				// 		velocity: 0.1,
 				// 	});
 				// }
@@ -647,6 +703,7 @@ class App extends Component {
 					playing={this.state.playing}
 					bpm={this.state.bpm}
 					updateBPM={this.updateBPM.bind(this)}
+					updateMetronome={this.updateMetronome.bind(this)}
 				/>
 				<Dimension
 					timeSig={this.state.timeSig}
