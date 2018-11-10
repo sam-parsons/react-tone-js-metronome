@@ -6,7 +6,7 @@ import Sequence from './Components/Sequence.js';
 import StepSequence from './Components/StepSequence.js';
 import Tone from 'tone';
 
-const synth = new Tone.Synth().toMaster();
+const synth = new Tone.PolySynth(2, Tone.Synth).toMaster();
 
 // Sample data begin
 // const sampleNotes = [];
@@ -360,7 +360,8 @@ class App extends Component {
 						time: `0:${i / 8}`,
 						velocity: 0.1,
 					});
-				} else if (matrix[1][i / (beatTicks / 2)] === 1) {
+				}
+				if (matrix[1][i / (beatTicks / 2)] === 1) {
 					renderedNotes.push({
 						note: notes[0],
 						time: `0:${i / 8}`,
@@ -374,7 +375,8 @@ class App extends Component {
 						time: `0:${i / 8}`,
 						velocity: 0.1,
 					});
-				} else if (matrix[1][i / beatTicks] === 1) {
+				}
+				if (matrix[1][i / beatTicks] === 1) {
 					renderedNotes.push({
 						note: notes[0],
 						time: `0:${i / 8}`,
