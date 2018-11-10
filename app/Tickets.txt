@@ -1,10 +1,9 @@
 Open Tickets
 
 - enabling loop function for sequence
-- play button should not fire if empty sequence
-- hook this up with a PolySynth
-- change generate metronome to read check boxes, or reroute transport layer to use updateMetronome()
-- retain patterns from step sequence when exported
-- clean up space between parts in sequence playing
+- hook this up with a PolySynth - FN
 - find a way to make Tone.Transport stop when the phrase is done playing (sequencing)
+- improve dynamic performance of dimension controls ?? does this still need addressing? - FN
+--- noticable when advancing up numBeats continuous, and space remains in pattern
+- measure sequence visualization
 

@@ -78,6 +78,7 @@ class App extends Component {
 			Tone.Transport.loopStart = 0;
 			Tone.Transport.loopEnd =
 				this.calcMetLength(this.state.timeSig) / 16;
+			console.log('loopEnd:' + Tone.Transport.loopEnd);
 			Tone.Transport.loop = true;
 		} else {
 			Tone.Transport.loop = false;
@@ -110,8 +111,9 @@ class App extends Component {
 			},
 			() => {
 				this.loopUpdate(true);
-				this.generateMetronome();
+
 				this.generateStepSequence();
+				this.updateMetronome();
 			}
 		);
 		bottomDisplay.innerHTML = Math.pow(2, parseInt(bottom.value));
@@ -171,8 +173,8 @@ class App extends Component {
 			const bottomRowButtons = document.querySelectorAll(
 				'.bottom-row-btn'
 			);
-			console.log(topRowButtons);
-			console.log(bottomRowButtons);
+			// console.log(topRowButtons);
+			// console.log(bottomRowButtons);
 			const matrix = this.generateSeqMatrix();
 			const topArray = [];
 			const bottomArray = [];
@@ -423,7 +425,11 @@ class App extends Component {
 					(j - sequenceIndex) % (beatTicks / 2) === 0
 				) {
 					const placement = this.computeTime(j);
-					if (sequenceContainer[i][3][0][j / (beatTicks / 2)] === 1) {
+					if (
+						sequenceContainer[i][3][0][
+							(j - sequenceIndex) / (beatTicks / 2)
+						] === 1
+					) {
 						renderedNotes.push({
 							note: notes[1],
 							time: placement,
@@ -471,41 +477,6 @@ class App extends Component {
 						});
 					}
 				}
-
-				// if (sequenceIndex === j) {
-				// 	const placement = this.computeTime(j);
-				// 	renderedNotes.push({
-				// 		note: notes[1],
-				// 		time: placement,
-				// 		velocity: 0.1,
-				// 	});
-				// } else if (
-				// 	j % beatTicks === 0 &&
-				// 	sequenceContainer[i][3][(j - sequenceIndex) / beatTicks] ===
-				// 		1 &&
-				// 	sequenceContainer[i][1] === 8
-				// ) {
-				// 	console.log(
-				// 		sequenceContainer[i][3][(j - sequenceIndex) / beatTicks]
-				// 	);
-				// 	const placement = this.computeTime(j);
-				// 	renderedNotes.push({
-				// 		note: notes[0],
-				// 		time: placement,
-				// 		velocity: 0.1,
-				// 	});
-				// } else if (
-				// 	(j - sequenceIndex) % beatTicks === 0 &&
-				// 	sequenceContainer[i][1] !== 8
-				// ) {
-				// 	console.log('beatTicks: ' + beatTicks);
-				// 	const placement = this.computeTime(j);
-				// 	renderedNotes.push({
-				// 		note: notes[0],
-				// 		time: placement,
-				// 		velocity: 0.1,
-				// 	});
-				// }
 			}
 			sequenceIndex += partLength;
 		}
@@ -556,7 +527,8 @@ class App extends Component {
 		const sequenceContainer = [];
 		let seqPartContainer = this.state.seqPartContainer;
 		seqPartContainer.forEach(part => part.removeAll());
-		seqPartContainer.forEach(part => part.pop());
+		seqPartContainer.forEach(part => seqPartContainer.pop());
+
 		console.log(sequenceContainer);
 		let sequenceIndex = 0;
 		Tone.Transport.stop();
@@ -719,6 +691,8 @@ class App extends Component {
 					seqIsPlaying={this.state.seqIsPlaying}
 					loopStatus={this.state.loopStatus}
 					clearSequence={this.clearSequence.bind(this)}
+					sequenceContainer={this.state.sequenceContainer}
+					playSequence={this.playSequence.bind(this)}
 				/>
 			</div>
 		);

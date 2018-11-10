@@ -13,6 +13,8 @@ class Sequence extends React.Component {
 				<PlayPauseButton
 					generateSequence={this.props.generateSequence}
 					seqIsPlaying={this.props.seqIsPlaying}
+					sequenceContainer={this.props.sequenceContainer}
+					playSequence={this.props.playSequence}
 				/>
 				<LoopButton loopStatus={this.props.loopStatus} />
 				<ClearButton clearSequence={this.props.clearSequence} />
