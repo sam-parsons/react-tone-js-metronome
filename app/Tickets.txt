@@ -1,9 +1,7 @@
 Open Tickets
 
-- enabling loop function for sequence
-- hook this up with a PolySynth - FN
-- find a way to make Tone.Transport stop when the phrase is done playing (sequencing)
-- improve dynamic performance of dimension controls ?? does this still need addressing? - FN
---- noticable when advancing up numBeats continuous, and space remains in pattern
 - measure sequence visualization
 
+Known Bugs:
+- improve dynamic performance of dimension controls ?? does this still need addressing? - FN
+--- noticable when advancing up numBeats continuous, and space remains in pattern

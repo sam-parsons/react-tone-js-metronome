@@ -287,6 +287,17 @@ class App extends Component {
 		}
 	}
 
+	calcSeqLength() {
+		console.log('calculating the length of the sequence');
+		const seqContainer = this.state.sequenceContainer;
+		let total = 0;
+		for (let i = 0; i < seqContainer.length; i++) {
+			total += seqContainer[i][2];
+		}
+		console.log('total: ' + total);
+		return total;
+	}
+
 	generateMetronome() {
 		console.log('generate metronome');
 		// erase or stop all previous parts
@@ -492,19 +503,26 @@ class App extends Component {
 				seqPartContainer: seqPartContainer,
 			},
 			() => {
+				this.calcSeqLength();
 				this.playSequence();
 			}
 		);
 	}
 
 	playSequence() {
-		this.loopUpdate(false);
+		// this.loopUpdate(false);
 		if (this.state.seqIsPlaying) {
 			// pause the sequence
 			this.setState({ seqIsPlaying: false, playing: false });
 			Tone.Transport.stop();
 			console.log('sequence stopped');
 		} else {
+			console.log('loopStart ' + Tone.Transport.loopStart);
+			console.log('loopEnd ' + Tone.Transport.loopEnd);
+			console.log('loop: ' + Tone.Transport.loop);
+			if (this.state.loopStatus === false) {
+				this.scheduleSeqTermination();
+			}
 			// clear out reminaing parts
 			const metContainer = this.state.metronomeContainer; // holds rendered part so it can be erased or stopped in future
 			metContainer.forEach(part => part.removeAll());
@@ -539,6 +557,40 @@ class App extends Component {
 			seqPartContainer: seqPartContainer,
 			sequenceContainer: sequenceContainer,
 		});
+	}
+
+	scheduleSeqTermination() {
+		console.log('scheduling sequence termination');
+		const time = this.computeTime(this.calcSeqLength() + 1);
+		Tone.Transport.scheduleOnce(() => {
+			this.playSequence();
+			this.setState({
+				sequenceContainer: [],
+				seqContainerSize: 0,
+				sequenceIndex: 0,
+				seqIsPlaying: false,
+				loopStatus: false,
+				playing: false,
+			});
+		}, time);
+	}
+
+	updateSeqLoop() {
+		console.log('updating sequence loop settings');
+		if (this.state.loopStatus === true) {
+			Tone.Transport.loopEnd = 0;
+			Tone.Transport.loop = false;
+			this.setState({
+				loopStatus: false,
+			});
+		} else {
+			Tone.Transport.loopEnd = this.computeTime(this.calcSeqLength());
+			Tone.Transport.loop = true;
+			console.log(Tone.Transport.loop);
+			this.setState({
+				loopStatus: true,
+			});
+		}
 	}
 
 	updateTopRow() {
@@ -695,6 +747,7 @@ class App extends Component {
 					clearSequence={this.clearSequence.bind(this)}
 					sequenceContainer={this.state.sequenceContainer}
 					playSequence={this.playSequence.bind(this)}
+					updateSeqLoop={this.updateSeqLoop.bind(this)}
 				/>
 			</div>
 		);

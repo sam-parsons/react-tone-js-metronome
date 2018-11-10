@@ -16,7 +16,11 @@ class Sequence extends React.Component {
 					sequenceContainer={this.props.sequenceContainer}
 					playSequence={this.props.playSequence}
 				/>
-				<LoopButton loopStatus={this.props.loopStatus} />
+				<LoopButton
+					loopStatus={this.props.loopStatus}
+					updateSeqLoop={this.props.updateSeqLoop}
+					seqIsPlaying={this.props.seqIsPlaying}
+				/>
 				<ClearButton clearSequence={this.props.clearSequence} />
 			</div>
 		);

@@ -8,7 +8,19 @@ class LoopButton extends React.Component {
 			<div className="loop-btn-div">
 				<button
 					id="loop-btn"
-					onClick={() => {
+					onClick={() => this.props.updateSeqLoop()}
+				>
+					{this.props.loopStatus ? 'Turn Loop Off' : 'Turn Loop On'}
+				</button>
+			</div>
+		);
+	}
+}
+
+export default LoopButton;
+
+/**
+ * () => {
 						console.log(this.props.loopStatus);
 						const loopStatus =
 							this.props.loopStatus === true ? false : true;
@@ -31,12 +43,4 @@ class LoopButton extends React.Component {
 							}
 						);
 					}}
-				>
-					{this.props.loopStatus ? 'Loop Off' : ' Loop On'}
-				</button>
-			</div>
-		);
-	}
-}
-
-export default LoopButton;
+ */
