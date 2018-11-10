@@ -4,6 +4,7 @@ import Transport from './Components/Transport.js';
 import Dimension from './Components/Dimension.js';
 import Sequence from './Components/Sequence.js';
 import StepSequence from './Components/StepSequence.js';
+import MeasureContainer from './Components/MeasureContainer.js';
 import Tone from 'tone';
 
 const synth = new Tone.PolySynth(2, Tone.Synth).toMaster();
@@ -119,6 +120,22 @@ class App extends Component {
 		bottomDisplay.innerHTML = Math.pow(2, parseInt(bottom.value));
 	}
 
+	updateMeasureSequence() {
+		console.log('updating measure sequencing');
+		const measureBoxDiv = document.querySelector('#measure-box');
+		const square = document.createElement('div');
+		square.className = 'square';
+		square.key = 'm' + this.state.seqContainerSize;
+		const content = document.createElement('div');
+		content.className = 'content';
+		content.key = 'c' + this.state.seqContainerSize;
+		const contentContent =
+			this.state.timeSig[0] + ' / ' + this.state.timeSig[1];
+		content.innerHTML = contentContent;
+		square.appendChild(content);
+		measureBoxDiv.appendChild(square);
+	}
+
 	exportMeasure() {
 		console.log('exporting measure');
 		const timeSig = this.state.timeSig;
@@ -138,7 +155,7 @@ class App extends Component {
 				seqContainerSize: seqContainerSize,
 			},
 			() => {
-				console.log('sequence container: ' + sequenceContainer);
+				this.updateMeasureSequence();
 				console.log('sequence size: ' + seqContainerSize);
 			}
 		);
@@ -178,18 +195,6 @@ class App extends Component {
 			const matrix = this.generateSeqMatrix();
 			const topArray = [];
 			const bottomArray = [];
-			// for (let i = 0; i < matrix.length; i++) {
-			// 	if (i === 0) {
-			// 		topArray.push(1);
-			// 		bottomArray.push(0);
-			// 	} else if (matrix[i] === 1) {
-			// 		topArray.push(0);
-			// 		bottomArray.push(1);
-			// 	} else {
-			// 		topArray.push(0);
-			// 		bottomArray.push(0);
-			// 	}
-			// }
 			for (let i = 0; i < topRowButtons.length; i++) {
 				if (topRowButtons[i].checked && bottomRowButtons[i].checked) {
 					topArray.push(1);
@@ -749,6 +754,7 @@ class App extends Component {
 					playSequence={this.playSequence.bind(this)}
 					updateSeqLoop={this.updateSeqLoop.bind(this)}
 				/>
+				<MeasureContainer />
 			</div>
 		);
 	}

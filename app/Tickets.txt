@@ -1,6 +1,7 @@
 Open Tickets
 
-- measure sequence visualization
+- clearmeasureContainer method and hook it up where it needs to be called
+- playback visualization
 
 Known Bugs:
 - improve dynamic performance of dimension controls ?? does this still need addressing? - FN
