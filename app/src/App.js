@@ -136,6 +136,15 @@ class App extends Component {
 		measureBoxDiv.appendChild(square);
 	}
 
+	clearMeasureSequence() {
+		console.log('clearing measure sequencer');
+		const masterDiv = document.querySelectorAll('#measure-box div.square');
+		console.log('masterDiv: ' + masterDiv.length);
+		for (let i = 0; i < masterDiv.length; i++) {
+			masterDiv[i].remove();
+		}
+	}
+
 	exportMeasure() {
 		console.log('exporting measure');
 		const timeSig = this.state.timeSig;
@@ -557,11 +566,16 @@ class App extends Component {
 		console.log(sequenceContainer);
 		let sequenceIndex = 0;
 		Tone.Transport.stop();
-		this.setState({
-			sequenceIndex: sequenceIndex,
-			seqPartContainer: seqPartContainer,
-			sequenceContainer: sequenceContainer,
-		});
+		this.setState(
+			{
+				sequenceIndex: sequenceIndex,
+				seqPartContainer: seqPartContainer,
+				sequenceContainer: sequenceContainer,
+			},
+			() => {
+				this.clearMeasureSequence();
+			}
+		);
 	}
 
 	scheduleSeqTermination() {

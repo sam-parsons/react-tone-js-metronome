@@ -1,6 +1,6 @@
 Open Tickets
 
-- clearmeasureContainer method and hook it up where it needs to be called
+- clearMeasureSequence ?? do I need to update any state ?? 
 - playback visualization
 
 Known Bugs:
