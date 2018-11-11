@@ -433,9 +433,15 @@ class App extends Component {
 		console.log('generate sequence');
 		let j;
 		const sequenceContainer = this.state.sequenceContainer;
+		// console.log('sequenceContainer: ' + sequenceContainer[0][2]);
 		const seqPartContainer = this.state.seqPartContainer;
 		seqPartContainer.forEach(part => part.removeAll());
 		let sequenceIndex = 0;
+		let totalSeqLength = 0;
+		for (let i = 0; i < sequenceContainer.length; i++) {
+			totalSeqLength += sequenceContainer[i][2];
+		}
+		console.log('total sequence length: ' + totalSeqLength);
 		const notes = this.state.notes;
 		console.log(sequenceContainer);
 		console.log('sequence container length: ' + sequenceContainer.length);
@@ -451,8 +457,9 @@ class App extends Component {
 			const loopLength = sequenceIndex + partLength;
 			console.log(sequenceContainer[i][3]);
 			// schedule visualization change here
-			Tone.Transport.scheduleOnce(
+			Tone.Transport.scheduleRepeat(
 				this.visualizeNextSquare.bind(this),
+				totalSeqLength,
 				this.computeTime(j)
 			);
 			for (j = sequenceIndex; j < loopLength; j++) {
@@ -559,6 +566,7 @@ class App extends Component {
 				metronomeContainer: metContainer,
 				metContainerSize: metContainerSize,
 				playing: false,
+				visualizeIndex: 0,
 			});
 			Tone.Transport.loopStart = 0;
 			Tone.Transport.stop();
@@ -618,6 +626,7 @@ class App extends Component {
 			console.log(Tone.Transport.loop);
 			this.setState({
 				loopStatus: true,
+				visualizeIndex: 0,
 			});
 		}
 	}
@@ -637,11 +646,9 @@ class App extends Component {
 			box[index - 1].classList.remove('visualize');
 			box[index].classList.add('visualize');
 		}
-		const indexPlusOne = index + 1;
-		if (index === size - 1) {
-			index = 0;
-		} else {
-			index = indexPlusOne;
+		let indexPlusOne = index + 1;
+		if (indexPlusOne === size) {
+			indexPlusOne = 0;
 		}
 		this.setState({ visualizeIndex: indexPlusOne });
 	}

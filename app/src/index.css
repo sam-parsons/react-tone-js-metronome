@@ -8,6 +8,10 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 }
 
+html {
+	margin: 0 18% 0 18%;
+}
+
 code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
 		monospace;
@@ -35,4 +39,8 @@ code {
 
 .visualize {
 	background: blue;
+}
+
+#measure-box {
+	margin: 0 10% 0 10%;
 }

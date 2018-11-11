@@ -1,0 +1,32 @@
+
+Tone.js:8458 Uncaught TypeError: Cannot read property 'classList' of undefined
+    at App.visualizeNextSquare (App.js:645)
+    at Tone.TransportRepeatEvent.Tone.TransportEvent.invoke (Tone.js:9648)
+    at Tone.TransportRepeatEvent.invoke (Tone.js:9750)
+    at Tone.TransportEvent.invoke (Tone.js:9648)
+    at Tone.Timeline.<anonymous> (Tone.js:10013)
+    at Tone.Timeline.<anonymous> (Tone.js:1369)
+    at Tone.Timeline.<anonymous> (Tone.js:1250)
+    at Array.forEach (<anonymous>)
+    at Tone.Timeline._iterate (Tone.js:1249)
+    at Tone.Timeline.forEachAtTime (Tone.js:1367)
+    at Tone.Transport._processTick (Tone.js:10012)
+    at Tone.Clock.<anonymous> (Tone.js:8773)
+    at Tone.TickSource.forEachTickBetween (Tone.js:8445)
+    at Tone.Clock._loop (Tone.js:8772)
+    at Tone.Context.Tone.Emitter.emit (Tone.js:894)
+visualizeNextSquare @ App.js:645
+Tone.TransportEvent.invoke @ Tone.js:9648
+Tone.TransportRepeatEvent.invoke @ Tone.js:9750
+Tone.TransportEvent.invoke @ Tone.js:9648
+(anonymous) @ Tone.js:10013
+(anonymous) @ Tone.js:1369
+(anonymous) @ Tone.js:1250
+Tone.Timeline._iterate @ Tone.js:1249
+Tone.Timeline.forEachAtTime @ Tone.js:1367
+Tone.Transport._processTick @ Tone.js:10012
+(anonymous) @ Tone.js:8773
+Tone.TickSource.forEachTickBetween @ Tone.js:8445
+Tone.Clock._loop @ Tone.js:8772
+Tone.Emitter.emit @ Tone.js:894
+App.js:633 visua

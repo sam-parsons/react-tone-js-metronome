@@ -1,7 +1,12 @@
 Open Tickets
 
 - clearMeasureSequence ?? do I need to update any state ?? 
-- playback visualization
+- when measure sequence is stopped, the transport is not set back to 0, ??OR SOMETHING ELSE??
+--- when misualizer starts again, it starts on last played square, instead of the first
+----- EITHER OF THESE TWO - 1. Tone.Transport. whatever position needs to be set at 0? OR
+------- 2. the scheduled events from the last time the loop was played are still firing
+- format meters like 6/8, 9/8 accordingly as default template for step sequencer
+- step sequence visualization
 
 Known Bugs:
 - improve dynamic performance of dimension controls ?? does this still need addressing? - FN
