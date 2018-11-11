@@ -45,6 +45,7 @@ class App extends Component {
 			playing: false,
 			bpm: 120,
 			visualizeIndex: 0,
+			eventCache: [],
 		};
 	}
 
@@ -446,6 +447,10 @@ class App extends Component {
 		console.log(sequenceContainer);
 		console.log('sequence container length: ' + sequenceContainer.length);
 		const renderedNotes = [];
+		const eventCache = this.state.eventCache;
+		if (eventCache.length !== 0) {
+			eventCache.forEach(ID => Tone.Transport.clear(ID));
+		}
 		for (let i = 0; i < sequenceContainer.length; i++) {
 			console.log(i);
 			if (i === 0) {
@@ -457,11 +462,10 @@ class App extends Component {
 			const loopLength = sequenceIndex + partLength;
 			console.log(sequenceContainer[i][3]);
 			// schedule visualization change here
-			Tone.Transport.scheduleRepeat(
-				this.visualizeNextSquare.bind(this),
-				totalSeqLength,
-				this.computeTime(j)
-			);
+
+			const tempEventID = this.repeatSchedule(j, totalSeqLength);
+			eventCache.push(tempEventID);
+
 			for (j = sequenceIndex; j < loopLength; j++) {
 				console.log(j);
 
@@ -533,6 +537,7 @@ class App extends Component {
 			{
 				sequenceIndex: sequenceIndex,
 				seqPartContainer: seqPartContainer,
+				eventCache: eventCache,
 			},
 			() => {
 				this.calcSeqLength();
@@ -547,6 +552,7 @@ class App extends Component {
 			// pause the sequence
 			this.setState({ seqIsPlaying: false, playing: false });
 			Tone.Transport.stop();
+			console.log(Tone.Transport);
 			console.log('sequence stopped');
 		} else {
 			console.log('loopStart ' + Tone.Transport.loopStart);
@@ -629,6 +635,14 @@ class App extends Component {
 				visualizeIndex: 0,
 			});
 		}
+	}
+
+	repeatSchedule(index, duration) {
+		return Tone.Transport.scheduleRepeat(
+			this.visualizeNextSquare.bind(this),
+			duration,
+			this.computeTime(index)
+		);
 	}
 
 	visualizeNextSquare() {
