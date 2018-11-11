@@ -44,6 +44,7 @@ class App extends Component {
 			placement: 0,
 			playing: false,
 			bpm: 120,
+			visualizeIndex: 0,
 		};
 	}
 
@@ -430,21 +431,31 @@ class App extends Component {
 
 	generateSequence() {
 		console.log('generate sequence');
+		let j;
 		const sequenceContainer = this.state.sequenceContainer;
 		const seqPartContainer = this.state.seqPartContainer;
 		seqPartContainer.forEach(part => part.removeAll());
 		let sequenceIndex = 0;
 		const notes = this.state.notes;
 		console.log(sequenceContainer);
-		console.log(sequenceContainer.length);
+		console.log('sequence container length: ' + sequenceContainer.length);
 		const renderedNotes = [];
 		for (let i = 0; i < sequenceContainer.length; i++) {
 			console.log(i);
+			if (i === 0) {
+				j = 0;
+			}
+
 			const beatTicks = this.calcBeatTicks(sequenceContainer[i][1]);
 			const partLength = sequenceContainer[i][2];
 			const loopLength = sequenceIndex + partLength;
 			console.log(sequenceContainer[i][3]);
-			for (let j = sequenceIndex; j < loopLength; j++) {
+			// schedule visualization change here
+			Tone.Transport.scheduleOnce(
+				this.visualizeNextSquare.bind(this),
+				this.computeTime(j)
+			);
+			for (j = sequenceIndex; j < loopLength; j++) {
 				console.log(j);
 
 				if (
@@ -584,9 +595,8 @@ class App extends Component {
 		Tone.Transport.scheduleOnce(() => {
 			this.playSequence();
 			this.setState({
-				sequenceContainer: [],
-				seqContainerSize: 0,
 				sequenceIndex: 0,
+				visualizeIndex: 0,
 				seqIsPlaying: false,
 				loopStatus: false,
 				playing: false,
@@ -610,6 +620,30 @@ class App extends Component {
 				loopStatus: true,
 			});
 		}
+	}
+
+	visualizeNextSquare() {
+		console.log('visualizing next square');
+		console.log(this.state.visualizeIndex);
+		const size = this.state.seqContainerSize;
+		let index = this.state.visualizeIndex;
+		const box = document.querySelectorAll('#measure-box div.square');
+		if (index === 0) {
+			box[0].classList.add('visualize');
+			if (box[size - 1].classList.contains('visualize')) {
+				box[size - 1].classList.remove('visualize');
+			}
+		} else {
+			box[index - 1].classList.remove('visualize');
+			box[index].classList.add('visualize');
+		}
+		const indexPlusOne = index + 1;
+		if (index === size - 1) {
+			index = 0;
+		} else {
+			index = indexPlusOne;
+		}
+		this.setState({ visualizeIndex: indexPlusOne });
 	}
 
 	updateTopRow() {
