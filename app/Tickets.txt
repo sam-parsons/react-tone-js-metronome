@@ -1,8 +1,6 @@
 Open Tickets
 
 - clearMeasureSequence ?? do I need to update any state ?? 
-- when measure sequence is stopped, the transport is not set back to 0, ??OR SOMETHING ELSE??
---- case kina solved, blue squares sometimes remain when eventCache is reloaded
 - format meters like 6/8, 9/8 accordingly as default template for step sequencer
 - step sequence visualization
 

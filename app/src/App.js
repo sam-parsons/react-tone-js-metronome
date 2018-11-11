@@ -552,7 +552,7 @@ class App extends Component {
 			// pause the sequence
 			this.setState({ seqIsPlaying: false, playing: false });
 			Tone.Transport.stop();
-			console.log(Tone.Transport);
+			this.removeVisualizeClass();
 			console.log('sequence stopped');
 		} else {
 			console.log('loopStart ' + Tone.Transport.loopStart);
@@ -665,6 +665,16 @@ class App extends Component {
 			indexPlusOne = 0;
 		}
 		this.setState({ visualizeIndex: indexPlusOne });
+	}
+
+	removeVisualizeClass() {
+		console.log('removing visualize classes from squares');
+		const squares = document.querySelectorAll('#measure-box div.square');
+		squares.forEach(square => {
+			if (square.classList.contains('visualize')) {
+				square.classList.remove('visualize');
+			}
+		});
 	}
 
 	updateTopRow() {
