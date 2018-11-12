@@ -9,7 +9,7 @@ body {
 }
 
 html {
-	margin: 0 18% 0 18%;
+	margin: 10% 18% 0 18%;
 }
 
 code {
@@ -43,4 +43,35 @@ code {
 
 #measure-box {
 	margin: 0 10% 0 10%;
+}
+
+.time-signature {
+	position: relative;
+	float: left;
+	margin-left: 20%;
+}
+
+.top-btns {
+	color: #000000;
+	background: transparent;
+	border: 2px solid #000000;
+	border-radius: 6px;
+	text-decoration: none;
+	text-transform: uppercase;
+}
+
+#tempo-value-header {
+	margin-top: 0;
+	font-size: 8px;
+	margin-bottom: 10%;
+	position: relative;
+	left: 16%;
+}
+
+#num-beats-desc {
+	font-size: 8px;
+}
+
+#subdivision-desc {
+	font-size: 8px;
 }

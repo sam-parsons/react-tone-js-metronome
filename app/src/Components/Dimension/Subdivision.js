@@ -4,20 +4,28 @@ class Subdivision extends React.Component {
 	render() {
 		return (
 			<div className="subdivision-div">
-				<input
+				<select
 					id="subdivision-input"
-					type="range"
-					min="1"
-					max="5"
 					defaultValue="2"
 					onChange={() => this.props.updateTimeSig()}
-				/>
-				<div>
-					<span id="subdivision-display">4</span>
-				</div>
+				>
+					<option value="1">2</option>
+					<option value="2">4</option>
+					<option value="3">8</option>
+					<option value="4">16</option>
+					<option value="5">32</option>
+				</select>
+				<div id="subdivision-desc">subdivision</div>
 			</div>
 		);
 	}
 }
 
 export default Subdivision;
+
+/**
+ * 					type="range"
+					min="1"
+					max="5"
+					defaultValue="2"
+ */

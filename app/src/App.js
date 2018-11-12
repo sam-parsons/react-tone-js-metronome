@@ -93,7 +93,7 @@ class App extends Component {
 		const slider = document.querySelector('#tempo-sld').value;
 		document.querySelector(
 			'#tempo-value-header'
-		).innerHTML = `Quarters per minute: ${slider}`;
+		).innerHTML = `Quarter notes per minute: ${slider}`;
 		// console.log('updating bpm to ' + slider);
 		this.setState({
 			bpm: parseInt(slider),
@@ -103,8 +103,11 @@ class App extends Component {
 
 	updateTimeSig() {
 		const top = document.querySelector('#num-beats-input');
+		// redo this with new select tag
 		const bottom = document.querySelector('#subdivision-input');
+		// console.log(bottom.value);
 		const bottomDisplay = document.querySelector('#subdivision-display');
+		// console.log(bottomDisplay);
 		this.setState(
 			{
 				timeSig: [
@@ -806,24 +809,26 @@ class App extends Component {
 		return (
 			<div className="App">
 				<div className="title">
-					<h1>Multimeter Metronome</h1>
+					<h3>Multimeter Metronome</h3>
 				</div>
-				<Transport
-					togglePlaying={this.togglePlaying.bind(this)}
-					playing={this.state.playing}
-					bpm={this.state.bpm}
-					updateBPM={this.updateBPM.bind(this)}
-					updateMetronome={this.updateMetronome.bind(this)}
-				/>
+				<Transport />
 				<Dimension
 					timeSig={this.state.timeSig}
 					updateTimeSig={this.updateTimeSig.bind(this)}
 					exportMeasure={this.exportMeasure.bind(this)}
+					updateMetronome={this.updateMetronome.bind(this)}
+					togglePlaying={this.togglePlaying.bind(this)}
+					playing={this.state.playing}
+					bpm={this.state.bpm}
+					updateBPM={this.updateBPM.bind(this)}
 				/>
 				<StepSequence
 					updateTopRow={this.updateTopRow.bind(this)}
 					generateStepSequence={this.generateStepSequence.bind(this)}
 				/>
+				<div className="sequence-section">
+					<h3>Measure Sequencer</h3>
+				</div>
 				<Sequence
 					generateSequence={this.generateSequence.bind(this)}
 					seqIsPlaying={this.state.seqIsPlaying}
