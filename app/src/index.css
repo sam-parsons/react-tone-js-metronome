@@ -28,16 +28,16 @@ code {
 
 #measure-container {
 	width: 80%;
-	margin: 10%;
+	margin: 5% 10% 0 13%;
 	padding-bottom: 20%;
 }
 
 .content {
 	color: white;
 	position: absolute;
-	font-family: 'Segoe UI';
-	top: 25%;
-	left: 15%;
+	font-family: 'Courier';
+	top: 13%;
+	left: 30%;
 }
 
 .visualize {
@@ -65,6 +65,7 @@ button {
 	border-radius: 6px;
 	text-decoration: none;
 	text-transform: uppercase;
+	font-family: 'Courier';
 }
 
 .bottom-btns {
@@ -119,8 +120,35 @@ button {
 }
 
 .sequence-transport {
-	margin-bottom: 5%;
 	width: 100%;
 	display: flex;
 	justify-content: center;
+}
+
+.line-divide {
+	background-color: white;
+	width: 18px;
+	height: 1px;
+}
+
+#play-pause-btn {
+	font-family: 'Courier';
+}
+
+#loop-btn {
+	font-family: 'Courier';
+}
+
+#clear-btn {
+	font-family: 'Courier';
+}
+
+#info-span {
+	font-size: 7px;
+
+	margin: 0 0 0 70%;
+}
+
+.title h3 {
+	margin-top: 0;
 }

@@ -4,6 +4,8 @@ Open Tickets
 - step sequence visualization
 - hardcode one demonstrated visualization on step-sequencer
 - pressing clear twice crashes the program
+- format the measures in sequencer with line horizontal through middle and numbers above and below
+- top level sort on index.css
 
 Ongoing Experiements:
 - styling checkboxes

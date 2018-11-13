@@ -134,9 +134,22 @@ class App extends Component {
 		const content = document.createElement('div');
 		content.className = 'content';
 		content.key = 'c' + this.state.seqContainerSize;
-		const contentContent =
-			this.state.timeSig[0] + ' / ' + this.state.timeSig[1];
-		content.innerHTML = contentContent;
+		const topNum = this.state.timeSig[0];
+		const bottomNum = this.state.timeSig[1];
+		const top = document.createElement('div');
+		top.innerHTML = topNum;
+		top.key = 't' + this.state.seqContainerSize;
+		top.className = 'top-number';
+		const bottom = document.createElement('div');
+		bottom.innerHTML = bottomNum;
+		bottom.key = 'b' + this.state.seqContainerSize;
+		bottom.className = 'bottom-number';
+		const line = document.createElement('div');
+		line.key = 'l' - this.state.seqContainerSize;
+		line.className = 'line-divide';
+		content.appendChild(top);
+		content.appendChild(line);
+		content.appendChild(bottom);
 		square.appendChild(content);
 		measureBoxDiv.appendChild(square);
 	}
@@ -825,6 +838,7 @@ class App extends Component {
 	render() {
 		return (
 			<div className="App">
+				<span id="info-span">Sam Parsons ©2018</span>
 				<div className="title">
 					<h3>Multimeter Metronome</h3>
 				</div>
