@@ -8,7 +8,7 @@ import TempoSlider from './Dimension/TempoSlider.js';
 class Dimension extends React.Component {
 	render() {
 		return (
-			<div>
+			<div className="dimension">
 				<div className="time-signature">
 					<NumBeats
 						timeSig={this.props.timeSig}
@@ -20,12 +20,14 @@ class Dimension extends React.Component {
 						updateTimeSig={this.props.updateTimeSig}
 					/>
 				</div>
-				<PlayStopButton
-					togglePlaying={this.props.togglePlaying}
-					playing={this.props.playing}
-					updateMetronome={this.props.updateMetronome}
-				/>
-				<RecordButton exportMeasure={this.props.exportMeasure} />
+				<div className="play-export">
+					<PlayStopButton
+						togglePlaying={this.props.togglePlaying}
+						playing={this.props.playing}
+						updateMetronome={this.props.updateMetronome}
+					/>
+					<RecordButton exportMeasure={this.props.exportMeasure} />
+				</div>
 				<TempoSlider
 					updateBPM={this.props.updateBPM}
 					bpm={this.props.bpm}

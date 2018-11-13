@@ -6,6 +6,7 @@ class PlayPauseButton extends React.Component {
 			<div className="play-pause-btn-div">
 				<button
 					id="play-pause-btn"
+					className="bottom-btns"
 					onClick={() => {
 						if (this.props.sequenceContainer.length === 0) {
 							console.log('nothing to play');

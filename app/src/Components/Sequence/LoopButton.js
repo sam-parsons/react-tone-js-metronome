@@ -8,6 +8,7 @@ class LoopButton extends React.Component {
 			<div className="loop-btn-div">
 				<button
 					id="loop-btn"
+					className="bottom-btns"
 					onClick={() => this.props.updateSeqLoop()}
 				>
 					{this.props.loopStatus ? 'Turn Loop Off' : 'Turn Loop On'}

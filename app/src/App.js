@@ -122,7 +122,7 @@ class App extends Component {
 				this.updateMetronome();
 			}
 		);
-		bottomDisplay.innerHTML = Math.pow(2, parseInt(bottom.value));
+		// bottomDisplay.innerHTML = Math.pow(2, parseInt(bottom.value));
 	}
 
 	updateMeasureSequence() {
@@ -718,6 +718,9 @@ class App extends Component {
 		if (timeSig[1] >= 8) {
 			topRow.innerHTML = '';
 			for (let i = 0; i < timeSig[0]; i++) {
+				const div = document.createElement('div');
+				div.key = 'd' + i;
+				div.className = 'top-row-shell';
 				const element = document.createElement('input');
 				element.type = 'checkbox';
 				element.key = 'a' + i;
@@ -728,11 +731,20 @@ class App extends Component {
 					this.updateTopRow();
 					this.updateMetronome();
 				};
-				topRow.appendChild(element);
+				const label = document.createElement('label');
+				label.key = 'k' + i;
+				label.for = 'top-row';
+
+				div.appendChild(element);
+				div.appendChild(label);
+				topRow.appendChild(div);
 			}
 		} else if (timeSig[1] <= 4) {
 			topRow.innerHTML = '';
 			for (let i = 0; i < timeSig[0] * 2; i++) {
+				const div = document.createElement('div');
+				div.key = 'd' + i;
+				div.className = 'top-row-shell';
 				const element = document.createElement('input');
 				element.type = 'checkbox';
 				element.key = 'b' + i;
@@ -743,7 +755,12 @@ class App extends Component {
 					this.updateTopRow();
 					this.updateMetronome();
 				};
-				topRow.appendChild(element);
+				const label = document.createElement('label');
+				label.key = 'k' + i;
+				label.for = 'top-row';
+				div.appendChild(element);
+				div.appendChild(label);
+				topRow.appendChild(div);
 			}
 		}
 

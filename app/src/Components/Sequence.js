@@ -6,10 +6,7 @@ import PlayPauseButton from './Sequence/PlayPauseButton.js';
 class Sequence extends React.Component {
 	render() {
 		return (
-			<div>
-				<div>
-					<h4>Sequence Controls</h4>
-				</div>
+			<div className="sequence-transport">
 				<PlayPauseButton
 					generateSequence={this.props.generateSequence}
 					seqIsPlaying={this.props.seqIsPlaying}

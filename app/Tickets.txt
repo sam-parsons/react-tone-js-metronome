@@ -2,10 +2,11 @@ Open Tickets
 
 - format meters like 6/8, 9/8 accordingly as default template for step sequencer
 - step sequence visualization
-IMMEDIATE NEXT STEPS
-- Find a good font family for the headers
-- style checkboxes
 - hardcode one demonstrated visualization on step-sequencer
+- pressing clear twice crashes the program
+
+Ongoing Experiements:
+- styling checkboxes
 
 Known Bugs:
 - improve dynamic performance of dimension controls ?? does this still need addressing? - FN

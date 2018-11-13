@@ -6,6 +6,7 @@ class ClearButton extends React.Component {
 			<div className="clear-btn-div">
 				<button
 					id="clear-btn"
+					className="bottom-btns"
 					onClick={() => this.props.clearSequence()}
 				>
 					Clear
