@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/react-tone-js-metronome/precache-manifest.3bde7556824ad064c0e6560f28e63f49.js"
+  "/react-tone-js-metronome/precache-manifest.d9529472aa3d95b3216524ebef6f96e1.js"
 );
 
 workbox.clientsClaim();
