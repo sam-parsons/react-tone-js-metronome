@@ -8,6 +8,11 @@ View live in-progress [demo here](https://sam-parsons.github.io/react-tone-js-me
 * React (create-react-app)
 * Tone.js
 
+## Future Features
+- Step Sequence Visualization
+- Idiomatic formatting of triple meters
+- Preventing the tempo slider callback from executing on every value increment when the user slides
+
 ## Author
 * **Sam Parsons** - *Initial work*
 
