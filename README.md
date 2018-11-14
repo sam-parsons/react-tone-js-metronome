@@ -5,8 +5,8 @@ Multimeter metronome built in React using Tone.js with sequencing features creat
 View live in-progress [demo here](https://sam-parsons.github.io/react-tone-js-metronome)
 
 ## Built With
-..* React (create-react-app)
-..* Tone.js
+* React (create-react-app)
+* Tone.js
 
 ## Author
 * **Sam Parsons** - *Initial work*
