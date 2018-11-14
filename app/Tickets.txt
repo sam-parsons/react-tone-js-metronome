@@ -3,7 +3,6 @@ Open Tickets
 - format meters like 6/8, 9/8 accordingly as default template for step sequencer
 - step sequence visualization
 - hardcode one demonstrated visualization on step-sequencer
-- top level sort on index.css
 - ?? placeholders for measure squares ?? could help, but probably noticable
 
 Ongoing Experiments:

@@ -93,11 +93,15 @@ button {
 /* Step Sequence*/
 
 .top-row-btn:checked {
-	background: #26ca28;
+	/* background: #26ca28; */
 }
 
 .top-row-shell {
 	display: inline-block;
+}
+
+.top-row-btn {
+	display: none;
 }
 
 /* Sequence*/
