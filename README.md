@@ -17,3 +17,5 @@ This project is licensed under the MIT License - see the LICENSE.md file for det
 ## Acknowledgments
 - Miguel Tepale - for having a conversation with me about a multi-functional metronome
 - Ted Lorts - suggested I do this project in React
+
+[](metGIF.gif)
