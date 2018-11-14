@@ -1,3 +1,5 @@
+/* General*/
+
 body {
 	margin: 0;
 	padding: 0;
@@ -16,6 +18,89 @@ code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
 		monospace;
 }
+
+.App {
+	max-width: 320px;
+	text-align: center;
+	margin: 0 auto;
+}
+
+/* Transport*/
+
+/* Dimension*/
+
+.time-signature {
+	position: relative;
+	float: left;
+	margin-left: 20%;
+}
+
+button {
+	margin: 2px 2px 2px 2px;
+}
+
+.top-btns {
+	color: #000000;
+	background: transparent;
+	border: 2px solid #000000;
+	border-radius: 6px;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-family: 'Courier';
+}
+
+#tempo-value-header {
+	margin-top: 0;
+	font-size: 8px;
+	margin-bottom: 10%;
+	position: relative;
+	left: 16%;
+}
+
+#num-beats-desc {
+	font-size: 8px;
+}
+
+#subdivision-desc {
+	font-size: 8px;
+}
+
+.dimension {
+	margin-top: 10%;
+}
+
+.play-export {
+	display: inline-block;
+}
+
+#info-span {
+	font-size: 7px;
+	margin: 0 0 0 70%;
+}
+
+.title h3 {
+	margin-top: 0;
+}
+
+#tempo-sld {
+	margin-top: 4%;
+}
+
+.tempo-text {
+	font-size: 10px;
+}
+
+/* Step Sequence*/
+
+.top-row-btn:checked {
+	background: #26ca28;
+}
+
+.top-row-shell {
+	display: inline-block;
+}
+
+/* Sequence*/
 
 .square {
 	float: left;
@@ -48,26 +133,6 @@ code {
 	margin: auto;
 }
 
-.time-signature {
-	position: relative;
-	float: left;
-	margin-left: 20%;
-}
-
-button {
-	margin: 2px 2px 2px 2px;
-}
-
-.top-btns {
-	color: #000000;
-	background: transparent;
-	border: 2px solid #000000;
-	border-radius: 6px;
-	text-decoration: none;
-	text-transform: uppercase;
-	font-family: 'Courier';
-}
-
 .bottom-btns {
 	color: #000000;
 	background: transparent;
@@ -75,44 +140,6 @@ button {
 	border-radius: 6px;
 	text-decoration: none;
 	text-transform: uppercase;
-}
-
-#tempo-value-header {
-	margin-top: 0;
-	font-size: 8px;
-	margin-bottom: 10%;
-	position: relative;
-	left: 16%;
-}
-
-#num-beats-desc {
-	font-size: 8px;
-}
-
-#subdivision-desc {
-	font-size: 8px;
-}
-
-.dimension {
-	margin-top: 10%;
-}
-
-.top-row-btn:checked {
-	background: #26ca28;
-}
-
-.top-row-shell {
-	display: inline-block;
-}
-
-.App {
-	max-width: 320px;
-	text-align: center;
-	margin: 0 auto;
-}
-
-.play-export {
-	display: inline-block;
 }
 
 .sequence-transport button {
@@ -141,14 +168,4 @@ button {
 
 #clear-btn {
 	font-family: 'Courier';
-}
-
-#info-span {
-	font-size: 7px;
-
-	margin: 0 0 0 70%;
-}
-
-.title h3 {
-	margin-top: 0;
 }

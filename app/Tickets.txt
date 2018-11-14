@@ -3,11 +3,10 @@ Open Tickets
 - format meters like 6/8, 9/8 accordingly as default template for step sequencer
 - step sequence visualization
 - hardcode one demonstrated visualization on step-sequencer
-- pressing clear twice crashes the program
-- format the measures in sequencer with line horizontal through middle and numbers above and below
 - top level sort on index.css
+- ?? placeholders for measure squares ?? could help, but probably noticable
 
-Ongoing Experiements:
+Ongoing Experiments:
 - styling checkboxes
 
 Known Bugs:
@@ -15,3 +14,5 @@ Known Bugs:
 --- noticable when advancing up numBeats continuous, and space remains in pattern
 ----> This happens because when the bar is dragged, it kicks off whatever its callback is a shit ton of time,
 ----- and messes up some data and the app is forever messed up. What to do?
+
+- measure visualization only cycles through top row - this problem is intermittent
