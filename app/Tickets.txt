@@ -4,6 +4,8 @@ Open Tickets
 - step sequence visualization
 - hardcode one demonstrated visualization on step-sequencer
 - ?? placeholders for measure squares ?? could help, but probably noticable
+- when using overflow-x for step sequence, find out how to center the entire div
+- think about including a click track to play before measure sequence plays
 
 Ongoing Experiments:
 - styling checkboxes

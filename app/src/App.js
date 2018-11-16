@@ -732,7 +732,7 @@ class App extends Component {
 			topRow.innerHTML = '';
 			for (let i = 0; i < timeSig[0]; i++) {
 				const div = document.createElement('div');
-				div.key = 'd' + i;
+				div.key = 'td' + i;
 				div.className = 'top-row-shell';
 				const element = document.createElement('input');
 				element.type = 'checkbox';
@@ -745,9 +745,8 @@ class App extends Component {
 					this.updateMetronome();
 				};
 				const label = document.createElement('label');
-				label.key = 'k' + i;
-				label.for = 'top-row';
-
+				label.key = 'tk' + i;
+				label.setAttribute('for', 'tr' + i);
 				div.appendChild(element);
 				div.appendChild(label);
 				topRow.appendChild(div);
@@ -756,7 +755,7 @@ class App extends Component {
 			topRow.innerHTML = '';
 			for (let i = 0; i < timeSig[0] * 2; i++) {
 				const div = document.createElement('div');
-				div.key = 'd' + i;
+				div.key = 'td' + i;
 				div.className = 'top-row-shell';
 				const element = document.createElement('input');
 				element.type = 'checkbox';
@@ -769,8 +768,8 @@ class App extends Component {
 					this.updateMetronome();
 				};
 				const label = document.createElement('label');
-				label.key = 'k' + i;
-				label.for = 'top-row';
+				label.key = 'tk' + i;
+				label.setAttribute('for', 'tr' + i);
 				div.appendChild(element);
 				div.appendChild(label);
 				topRow.appendChild(div);
@@ -785,6 +784,9 @@ class App extends Component {
 		if (timeSig[1] >= 8) {
 			bottomRow.innerHTML = '';
 			for (let i = 0; i < timeSig[0]; i++) {
+				const div = document.createElement('div');
+				div.key = 'td' + i;
+				div.className = 'bottom-row-shell';
 				const element = document.createElement('input');
 				element.type = 'checkbox';
 				element.key = 'a' + i;
@@ -792,11 +794,19 @@ class App extends Component {
 				element.className = 'bottom-row-btn';
 				element.checked = matrix[i] === 1 && i !== 0 ? true : false;
 				element.onclick = () => this.updateBottomRow();
-				bottomRow.appendChild(element);
+				const label = document.createElement('label');
+				label.key = 'bk' + i;
+				label.setAttribute('for', 'br' + i);
+				div.appendChild(element);
+				div.appendChild(label);
+				bottomRow.appendChild(div);
 			}
 		} else if (timeSig[1] <= 4) {
 			bottomRow.innerHTML = '';
 			for (let i = 0; i < timeSig[0] * 2; i++) {
+				const div = document.createElement('div');
+				div.key = 'td' + i;
+				div.className = 'bottom-row-shell';
 				const element = document.createElement('input');
 				element.type = 'checkbox';
 				element.key = 'b' + i;
@@ -804,7 +814,12 @@ class App extends Component {
 				element.className = 'bottom-row-btn';
 				element.checked = matrix[i] === 1 && i !== 0 ? true : false;
 				element.onclick = () => this.updateBottomRow();
-				bottomRow.appendChild(element);
+				const label = document.createElement('label');
+				label.key = 'bk' + i;
+				label.setAttribute('for', 'br' + i);
+				div.appendChild(element);
+				div.appendChild(label);
+				bottomRow.appendChild(div);
 			}
 		}
 
