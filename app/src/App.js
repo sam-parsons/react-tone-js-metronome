@@ -740,6 +740,7 @@ class App extends Component {
 				element.id = 'tr' + i;
 				element.className = 'top-row-btn';
 				element.checked = i === 0 ? true : false;
+				element.setAttribute('highlighted', false);
 				element.onclick = () => {
 					this.updateTopRow();
 					this.updateMetronome();
@@ -747,6 +748,11 @@ class App extends Component {
 				const label = document.createElement('label');
 				label.key = 'tk' + i;
 				label.setAttribute('for', 'tr' + i);
+				const highlight = document.createElement('div');
+				highlight.key = 'th' + i;
+				highlight.className = 'highlight';
+				highlight.hidden = false;
+				label.appendChild(highlight);
 				div.appendChild(element);
 				div.appendChild(label);
 				topRow.appendChild(div);
@@ -763,6 +769,7 @@ class App extends Component {
 				element.id = 'tr' + i;
 				element.className = 'top-row-btn';
 				element.checked = matrix[0] === 1 && i === 0 ? true : false;
+				element.setAttribute('highlighted', false);
 				element.onclick = () => {
 					this.updateTopRow();
 					this.updateMetronome();
@@ -770,6 +777,11 @@ class App extends Component {
 				const label = document.createElement('label');
 				label.key = 'tk' + i;
 				label.setAttribute('for', 'tr' + i);
+				const highlight = document.createElement('div');
+				highlight.key = 'th' + i;
+				highlight.className = 'highlight';
+				highlight.hidden = false;
+				label.appendChild(highlight);
 				div.appendChild(element);
 				div.appendChild(label);
 				topRow.appendChild(div);
@@ -797,6 +809,11 @@ class App extends Component {
 				const label = document.createElement('label');
 				label.key = 'bk' + i;
 				label.setAttribute('for', 'br' + i);
+				const highlight = document.createElement('div');
+				highlight.key = 'th' + i;
+				highlight.className = 'highlight';
+				highlight.hidden = false;
+				label.appendChild(highlight);
 				div.appendChild(element);
 				div.appendChild(label);
 				bottomRow.appendChild(div);
@@ -817,6 +834,11 @@ class App extends Component {
 				const label = document.createElement('label');
 				label.key = 'bk' + i;
 				label.setAttribute('for', 'br' + i);
+				const highlight = document.createElement('div');
+				highlight.key = 'th' + i;
+				highlight.className = 'highlight';
+				highlight.hidden = false;
+				label.appendChild(highlight);
 				div.appendChild(element);
 				div.appendChild(label);
 				bottomRow.appendChild(div);

@@ -6,7 +6,7 @@ import ProgressBar from './StepSequence/ProgressBar.js';
 class StepSequence extends React.Component {
 	render() {
 		return (
-			<div>
+			<div id="step-sequence">
 				<TopRow onChange={() => this.props.renderStepSequence()} />
 				<BottomRow onChange={() => this.props.renderStepSequence()} />
 				<ProgressBar />

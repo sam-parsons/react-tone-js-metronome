@@ -163,6 +163,12 @@ input[type='checkbox'].bottom-row-btn:checked + label {
 	background: white;
 }
 
+.highlight {
+	background-color: cyan;
+	height: 20px;
+	width: 15px;
+}
+
 /* Sequence*/
 
 .square {
