@@ -1,6 +1,6 @@
 # Multimeter Metronome with Sequencing
 
-Multimeter metronome built in React using Tone.js with sequencing features created as a tool for advanced musicians tackling contemporary repertoire.
+Multimeter metronome built in React using Tone.js with sequencing features created as a tool for advanced musicians and composers tackling contemporary repertoire.
 
 View live in-progress [demo here](https://sam-parsons.github.io/react-tone-js-metronome)
 
